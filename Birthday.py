@@ -14,9 +14,10 @@ Friday: Kim, Jan
 Функція виводить користувачів з днями народження на тиждень вперед від поточного дня.
 Тиждень починається з понеділка."""
 
-def get_birthdays_per_week (colegues_list: dict) -> str:
+def get_birthdays_per_week (colleagues_dict: dict) -> str:
+    print (colleagues_dict)
 
-    pass
+    return
 
 
 if __name__ == '__main__':
@@ -29,28 +30,37 @@ if __name__ == '__main__':
 
     fake = Faker("uk-UA") # ukrainian legguage
     fake.add_provider(profile)
-    fake.add_provider(phone_number)
-
+    
     Faker.seed(1)
+    
+    def create_test_colleagues_dict():
+        colleagues_dict = {}
+
+        for i in range(10):
+            prof = fake.profile()
+            #print(type(prof['name']))
+            #print(type(prof['birthdate']))
+            birthday = str(prof['birthdate'])
+            #print (type(birthday))
+            colleagues_dict[prof['name']] = birthday 
+            print(prof['name'], birthday)
+        return colleagues_dict
+    
+    colleagues_dict = create_test_colleagues_dict()
+  
+
+    get_birthdays_per_week (colleagues_dict)
 
 
-    for i in range(10):
-        prof = fake.profile()
-        phones = []
-        for i in range(3):
-            phones.append(fake.phone_number())
-        print(prof['name'], prof['birthdate'], phones)
 
-    from rich import print
-    from rich.table import Table
 
-    dct = {i: i ** 3 for i in range(10, 20)}
+   # dct = {i: i ** 3 for i in range(10, 20)}
 
-    table = Table(title="numbers")
-    table.add_column("number", justify="right")
-    table.add_column("cube", justify="left", style="magenta")
+    # table = Table(title="numbers")
+    # table.add_column("number", justify="right")
+    # table.add_column("cube", justify="left", style="magenta")
 
-    for key, value in dct.items():
-        table.add_row(str(key), str(value) * 3)
+    # for key, value in dct.items():
+    #     table.add_row(str(key), str(value) * 3)
 
-    print(table)
+    # print(table)
