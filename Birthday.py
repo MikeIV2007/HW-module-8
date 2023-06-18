@@ -38,24 +38,84 @@ def find_next_monday()->datetime:
                 return next_monday
             else:
                 continue
+def one_week_range(next_monday: datetime) -> datetime:
+    start_of_range = datetime(next_monday.year, next_monday.month, next_monday.day-2)
+    end_of_range = datetime(next_monday.year, next_monday.month, next_monday.day+4)
+    return start_of_range, end_of_range
 
-
-def get_birthdays_per_week (colleagues_dict: dict) -> str:
-    calendar.setfirstweekday(calendar.MONDAY) #monday 0 - sundey 6
-    firthtweekday = calendar.firstweekday()
-    #weekday = calendar.weekday(year, month, day)
-    print (colleagues_dict)
-    nw_birhtday_dict = {}
-    next_monday = find_next_monday()
-    print (next_monday)
-
+def birthday_dict_in_range(range: datetime) -> dict:
+    birthday_dict = {}
     for name, birthday in colleagues_dict.items():
  
-        year = birthday.year
-        day = birthday.day
-        month = birthday.month
-        weekday = calendar.weekday(year, month, day)
-        print (name, birthday, year, day, month, weekday)
+      
+        if range[0].month <=  birthday.month <= range[1].month:
+            #print (birthday.month)
+            if range[0].day <=  birthday.day <= range[1].day:
+                weekday = calendar.weekday(birthday.year, birthday.month, birthday.day)
+                print (weekday ,name, birthday)
+                birthday_dict[name] = birthday
+    return birthday_dict
+
+def print_table(birthday_dict: dict)-> print:
+    
+    sorted_dict = dict(sorted(birthday_dict.items(), key=lambda item: item[1]))
+
+    table = Table(title="\nNEXT WEEK BERTHDAYS")
+    table.add_column("Day of week", justify="left")
+    table.add_column("Colleague Name", justify="left")
+    table.add_column("Birthday", justify="center", style="magenta")
+
+    for key, value in sorted_dict.items():
+
+
+        day_of_week = calendar.weekday(value.year, value.month, value.day)
+         
+        if day_of_week == 0 or day_of_week == 5 or day_of_week == 6:
+            day_of_week = 'Monday'
+
+        if day_of_week == 1:
+            day_of_week = 'Tuesday'
+
+        if day_of_week == 2:
+            day_of_week = 'Wednesday'
+
+        if day_of_week == 3:
+            day_of_week = 'Thursday'            
+
+        if day_of_week == 4:
+            day_of_week = 'Friday'
+
+        table.add_row(day_of_week, str(key), str(value))
+
+
+    return print(table)
+
+
+
+
+def get_birthdays_per_week (colleagues_dict: dict) -> None:
+    calendar.setfirstweekday(calendar.MONDAY) #monday 0 - sundey 6
+    #firthtweekday = calendar.firstweekday()
+    #weekday = calendar.weekday(year, month, day)
+    #print (colleagues_dict)
+    
+    next_monday = find_next_monday()
+    print (next_monday)
+    range = one_week_range( next_monday)
+    print (range)
+    birthday_dict = birthday_dict_in_range(range)
+    print (birthday_dict)
+    print_table (birthday_dict)
+
+    # for name, birthday in colleagues_dict.items():
+ 
+      
+    #     if range[0].month <=  birthday.month <= range[1].month:
+    #         #print (birthday.month)
+    #         if range[0].day <=  birthday.day <= range[1].day:
+    #             weekday = calendar.weekday(birthday.year, birthday.month, birthday.day)
+    #             print (weekday ,name, birthday)
+        #print (name, birthday, year, day, month, weekday)
 
     #weekday = calendar.weekday(year=current_date.year, month=current_date.month, day=current_date.day )
     #next_week_start= 
@@ -64,17 +124,17 @@ def get_birthdays_per_week (colleagues_dict: dict) -> str:
 
 
 # table:
-    # dct = {i: i ** 3 for i in range(10, 20)}
+#     dct = {i: i ** 3 for i in range(10, 20)}
 
-    # table = Table(title="numbers")
-    # table.add_column("number", justify="right")
-    # table.add_column("cube", justify="left", style="magenta")
+#     table = Table(title="numbers")
+#     table.add_column("number", justify="right")
+#     table.add_column("cube", justify="left", style="magenta")
 
-    # for key, value in dct.items():
-    #     table.add_row(str(key), str(value) * 3)
+#     for key, value in dct.items():
+#         table.add_row(str(key), str(value) * 3)
 
 
-    # return print(table)
+#     return print(table)
 
 
 if __name__ == '__main__':
@@ -85,12 +145,12 @@ if __name__ == '__main__':
     fake = Faker("uk-UA") # ukrainian legguage
     fake.add_provider(profile)
     
-    Faker.seed(1)
+    #Faker.seed(1) #1 for constant dict
     
     def create_test_colleagues_dict():
         colleagues_dict = {}
 
-        for i in range(10):
+        for i in range(200):
             prof = fake.profile()
             #print(type(prof['name']))
             #print(type(prof['birthdate']))
@@ -104,18 +164,7 @@ if __name__ == '__main__':
     
     colleagues_dict = create_test_colleagues_dict()
 
-    # colleagues_dict ={
-    #     'Христина Зінчук': date(2020, 6, 4),
-    #     'Нестор Авраменко': date(1954, 7, 23),
-    #     'Валентин Копитко': date(1989, 11, 19),
-    #     'Мирон Філіпенко': date(1936, 6, 13),
-    #     'Мартин Засенко': date(1923, 2, 14),
-    #     'пані Вікторія Каденюк': date(1985, 8, 17),
-    #     'Веніямин Ґалаґан': date(1981, 2, 20),
-    #     'Святослав Єфименко': date(1965, 7, 16),
-    #     'Ірина Дерегус': date(1946, 2, 12),
-    #     'Лариса Лупій': date(2020, 10, 28)
-    # }
+
         
 
     get_birthdays_per_week (colleagues_dict)
