@@ -65,28 +65,75 @@ def print_table(birthday_dict: dict)-> print:
     table.add_column("Colleague Name", justify="left")
     table.add_column("Birthday", justify="center", style="magenta")
 
+    i = 1
     for key, value in sorted_dict.items():
-
 
         day_of_week = calendar.weekday(value.year, value.month, value.day)
          
         if day_of_week == 0 or day_of_week == 5 or day_of_week == 6:
-            day_of_week = 'Monday'
+            if i == 1:
+                day_of_week = 'Monday'
+                table.add_row(day_of_week, str(key), str(value))
+                i +=1
+            else:
+                day_of_week = ''
+                table.add_row(day_of_week, str(key), str(value))
+
+    i = 1
+    for key, value in sorted_dict.items():
+
+        day_of_week = calendar.weekday(value.year, value.month, value.day)
 
         if day_of_week == 1:
-            day_of_week = 'Tuesday'
+            if i == 1:
+                day_of_week = 'Tuesday'
+                table.add_row(day_of_week, str(key), str(value))
+                i +=1
+            else:
+                day_of_week = ''
+                table.add_row(day_of_week, str(key), str(value))
+
+    i = 1
+    for key, value in sorted_dict.items():
+
+        day_of_week = calendar.weekday(value.year, value.month, value.day)
 
         if day_of_week == 2:
-            day_of_week = 'Wednesday'
+            if i == 1:
+                day_of_week = 'Wednesday'
+                table.add_row(day_of_week, str(key), str(value))
+                i += 1
+            else:
+                day_of_week = ''
+                table.add_row(day_of_week, str(key), str(value))
+
+    i = 1
+    for key, value in sorted_dict.items():
+
+        day_of_week = calendar.weekday(value.year, value.month, value.day)                
 
         if day_of_week == 3:
-            day_of_week = 'Thursday'            
+            if i == 1:
+                day_of_week = 'Thursday'            
+                table.add_row(day_of_week, str(key), str(value))
+                i += 1
+            else:
+                day_of_week = ''
+                table.add_row(day_of_week, str(key), str(value))
+
+    i = 1
+    for key, value in sorted_dict.items():
+
+        day_of_week = calendar.weekday(value.year, value.month, value.day)   
 
         if day_of_week == 4:
-            day_of_week = 'Friday'
-
-        table.add_row(day_of_week, str(key), str(value))
-
+            if i == 1:
+                day_of_week = 'Friday'
+                table.add_row(day_of_week, str(key), str(value))
+                i += 1
+            else:
+                day_of_week = ''
+                table.add_row(day_of_week, str(key), str(value))                
 
     return print(table)
 
