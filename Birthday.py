@@ -70,10 +70,10 @@ def birthday_dict_in_range(range: datetime, colleagues_dict: dict) -> dict:
             if birthday.month == 1:
                 birthday_year_1 = range[1].year
                 birthday_1 = datetime.date(birthday_year_1, birthday.month, birthday.day)
-                #print (birthday_12)
+                print (birthday_1)
                 if range[0] <=  birthday_1 <= range[1]:
                     print (range[0], range[1])
-                    print(name, birthday_12)
+                    print(name, birthday_1)
                     print (True)
                     birthday_dict[name] = birthday
             #return birthday_dict
@@ -87,87 +87,177 @@ def birthday_dict_in_range(range: datetime, colleagues_dict: dict) -> dict:
                     birthday_dict[name] = birthday
     return birthday_dict
 
-def print_table(birthday_dict: dict)-> print:
+def table_rows_list (birthday_dict: dict, range: datetime) ->list:
+    list_to_print=[]
+    i = 1
+    for name, birthday in birthday_dict.items():
 
-    current_year = (datetime.now()).year
-    #birthday_dict = dict(sorted(birthday_dict.items(), key=lambda item: item[1]))
+        if range[0].month == 12 and range[1].month == 1:
+            if birthday.month == 12:
+                year = range[0].year
+                value_12 = datetime.date(year, birthday.month, birthday.day)
+                day_of_week = calendar.weekday(year, birthday.month, birthday.day)
+
+                if day_of_week  == 5 or day_of_week ==6:
+                    day_of_week = 0
+                lst = [day_of_week, name, birthday]
+                list_to_print.append(lst)
+
+            if birthday.month == 1:
+                year = range[1].year
+                value_1 = datetime.date(year, birthday.month, birthday.day)
+                day_of_week = calendar.weekday(year, birthday.month, birthday.day)
+                
+                if day_of_week  == 5 or day_of_week ==6:
+                    day_of_week = 0
+                lst = [day_of_week, name, birthday]
+                list_to_print.append(lst)
+        else:               
+            year = range[0].year
+            day_of_week = calendar.weekday(year, birthday.month, birthday.day)
+            if day_of_week  == 5 or day_of_week ==6:
+                day_of_week = 0        
+            lst = [day_of_week, name, birthday]
+            list_to_print.append(lst)
+
+    list_to_print.sort()
+
+      
+    return list_to_print
+         
+        # if day_of_week == 0 or day_of_week == 5 or day_of_week == 6:
+        #     if i == 1:
+        #         day_of_week = 'Monday'
+        #         table.add_row(day_of_week, str(key), str(value))
+        #         i +=1
+        #     else:
+        #         day_of_week = ''
+        #         table.add_row(day_of_week, str(key), str(value))
+
+def print_table(list_to_print: list)-> print:
+
+    print(list_to_print)
+
 
     table = Table(title="\nNEXT WEEK BERTHDAYS")
     table.add_column("Day of week", justify="left")
     table.add_column("Colleague Name", justify="left")
     table.add_column("Birthday", justify="center", style="magenta")
-
-    i = 1
-    for key, value in birthday_dict.items():
-
-        day_of_week = calendar.weekday(current_year, value.month, value.day)
-         
-        if day_of_week == 0 or day_of_week == 5 or day_of_week == 6:
-            if i == 1:
+    a= b = c = d = e =1
+    for i in list_to_print:
+    
+        if i[0] == 0:
+            if a == 1:
                 day_of_week = 'Monday'
-                table.add_row(day_of_week, str(key), str(value))
-                i +=1
+                a += 1
             else:
-                day_of_week = ''
-                table.add_row(day_of_week, str(key), str(value))
+                day_of_week = '' 
 
-    i = 1
-    for key, value in birthday_dict.items():
-
-        day_of_week = calendar.weekday(current_year, value.month, value.day)
-
-        if day_of_week == 1:
-            if i == 1:
+          
+        if i[0] == 1:
+            if b == 1:
                 day_of_week = 'Tuesday'
-                table.add_row(day_of_week, str(key), str(value))
-                i +=1
+                b += 1
             else:
                 day_of_week = ''
-                table.add_row(day_of_week, str(key), str(value))
 
-    i = 1
-    for key, value in birthday_dict.items():
-
-        day_of_week = calendar.weekday(current_year, value.month, value.day)
-
-        if day_of_week == 2:
-            if i == 1:
+        if i[0] == 2:
+            if c == 1:
                 day_of_week = 'Wednesday'
-                table.add_row(day_of_week, str(key), str(value))
-                i += 1
+                c += 1
             else:
                 day_of_week = ''
-                table.add_row(day_of_week, str(key), str(value))
 
-    i = 1
-    for key, value in birthday_dict.items():
-
-        day_of_week = calendar.weekday(current_year, value.month, value.day)                
-
-        if day_of_week == 3:
-            if i == 1:
-                day_of_week = 'Thursday'            
-                table.add_row(day_of_week, str(key), str(value))
-                i += 1
+        if i[0] == 3:
+            if d == 1:
+                day_of_week = 'Thursday'
+                d += 1
             else:
                 day_of_week = ''
-                table.add_row(day_of_week, str(key), str(value))
 
-    i = 1
-    for key, value in birthday_dict.items():
-
-        day_of_week = calendar.weekday(current_year, value.month, value.day)   
-
-        if day_of_week == 4:
-            if i == 1:
+        if i[0] == 4:
+            if e == 1:
                 day_of_week = 'Friday'
-                table.add_row(day_of_week, str(key), str(value))
-                i += 1
+                e += 1
             else:
                 day_of_week = ''
-                table.add_row(day_of_week, str(key), str(value))                
+
+        table.add_row(day_of_week, str(i[1]), str(i[2]))
+    
+
+    # i = 1
+    # for key, value in birthday_dict.items():
+
+    #     day_of_week = calendar.weekday(current_year, value.month, value.day)
+         
+    #     if day_of_week == 0 or day_of_week == 5 or day_of_week == 6:
+    #         if i == 1:
+    #             day_of_week = 'Monday'
+    #             table.add_row(day_of_week, str(key), str(value))
+    #             i +=1
+    #         else:
+    #             day_of_week = ''
+    #             table.add_row(day_of_week, str(key), str(value))
+
+    # i = 1
+    # for key, value in birthday_dict.items():
+
+    #     day_of_week = calendar.weekday(current_year, value.month, value.day)
+
+    #     if day_of_week == 1:
+    #         if i == 1:
+    #             day_of_week = 'Tuesday'
+    #             table.add_row(day_of_week, str(key), str(value))
+    #             i +=1
+    #         else:
+    #             day_of_week = ''
+    #             table.add_row(day_of_week, str(key), str(value))
+
+    # i = 1
+    # for key, value in birthday_dict.items():
+
+    #     day_of_week = calendar.weekday(current_year, value.month, value.day)
+
+    #     if day_of_week == 2:
+    #         if i == 1:
+    #             day_of_week = 'Wednesday'
+    #             table.add_row(day_of_week, str(key), str(value))
+    #             i += 1
+    #         else:
+    #             day_of_week = ''
+    #             table.add_row(day_of_week, str(key), str(value))
+
+    # i = 1
+    # for key, value in birthday_dict.items():
+
+    #     day_of_week = calendar.weekday(current_year, value.month, value.day)                
+
+    #     if day_of_week == 3:
+    #         if i == 1:
+    #             day_of_week = 'Thursday'            
+    #             table.add_row(day_of_week, str(key), str(value))
+    #             i += 1
+    #         else:
+    #             day_of_week = ''
+    #             table.add_row(day_of_week, str(key), str(value))
+
+    # i = 1
+    # for key, value in birthday_dict.items():
+
+    #     day_of_week = calendar.weekday(current_year, value.month, value.day)   
+
+    #     if day_of_week == 4:
+    #         if i == 1:
+    #             day_of_week = 'Friday'
+    #             table.add_row(day_of_week, str(key), str(value))
+    #             i += 1
+    #         else:
+    #             day_of_week = ''
+    #             table.add_row(day_of_week, str(key), str(value))                
 
     return print(table)
+
+
 
 
 def get_birthdays_per_week (colleagues_dict: dict) -> None:
@@ -177,12 +267,13 @@ def get_birthdays_per_week (colleagues_dict: dict) -> None:
     #print (colleagues_dict)
     
     next_monday = find_next_monday()
-    print (next_monday)
+    #print (next_monday)
     range = one_week_range( next_monday)
-    print (range)
+    #print (range)
     birthday_dict = birthday_dict_in_range(range, colleagues_dict)
-    print (birthday_dict)
-    print_table (birthday_dict)
+    #print (birthday_dict)
+    table_rows_lst = table_rows_list (birthday_dict, range)
+    print_table (table_rows_lst)
 
     # for name, birthday in colleagues_dict.items():
  
