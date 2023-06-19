@@ -27,7 +27,7 @@ def find_next_monday()->datetime:
     some_day = datetime.now()
     week_day = calendar.weekday(some_day.year, some_day.month, some_day.day)
     if week_day == 0:
-        next_monday = some_day + 7
+        next_monday = datetime(some_day.year, some_day.month, some_day.day +7)
         return next_monday
     else:
         for i in range (7):
@@ -52,13 +52,14 @@ def birthday_dict_in_range(range: datetime) -> dict:
             #print (birthday.month)
             if range[0].day <=  birthday.day <= range[1].day:
                 weekday = calendar.weekday(birthday.year, birthday.month, birthday.day)
-                print (weekday ,name, birthday)
+                #print (weekday ,name, birthday)
                 birthday_dict[name] = birthday
     return birthday_dict
 
 def print_table(birthday_dict: dict)-> print:
-    
-    sorted_dict = dict(sorted(birthday_dict.items(), key=lambda item: item[1]))
+
+    current_year = (datetime.now()).year
+    #birthday_dict = dict(sorted(birthday_dict.items(), key=lambda item: item[1]))
 
     table = Table(title="\nNEXT WEEK BERTHDAYS")
     table.add_column("Day of week", justify="left")
@@ -66,9 +67,9 @@ def print_table(birthday_dict: dict)-> print:
     table.add_column("Birthday", justify="center", style="magenta")
 
     i = 1
-    for key, value in sorted_dict.items():
+    for key, value in birthday_dict.items():
 
-        day_of_week = calendar.weekday(value.year, value.month, value.day)
+        day_of_week = calendar.weekday(current_year, value.month, value.day)
          
         if day_of_week == 0 or day_of_week == 5 or day_of_week == 6:
             if i == 1:
@@ -80,9 +81,9 @@ def print_table(birthday_dict: dict)-> print:
                 table.add_row(day_of_week, str(key), str(value))
 
     i = 1
-    for key, value in sorted_dict.items():
+    for key, value in birthday_dict.items():
 
-        day_of_week = calendar.weekday(value.year, value.month, value.day)
+        day_of_week = calendar.weekday(current_year, value.month, value.day)
 
         if day_of_week == 1:
             if i == 1:
@@ -94,9 +95,9 @@ def print_table(birthday_dict: dict)-> print:
                 table.add_row(day_of_week, str(key), str(value))
 
     i = 1
-    for key, value in sorted_dict.items():
+    for key, value in birthday_dict.items():
 
-        day_of_week = calendar.weekday(value.year, value.month, value.day)
+        day_of_week = calendar.weekday(current_year, value.month, value.day)
 
         if day_of_week == 2:
             if i == 1:
@@ -108,9 +109,9 @@ def print_table(birthday_dict: dict)-> print:
                 table.add_row(day_of_week, str(key), str(value))
 
     i = 1
-    for key, value in sorted_dict.items():
+    for key, value in birthday_dict.items():
 
-        day_of_week = calendar.weekday(value.year, value.month, value.day)                
+        day_of_week = calendar.weekday(current_year, value.month, value.day)                
 
         if day_of_week == 3:
             if i == 1:
@@ -122,9 +123,9 @@ def print_table(birthday_dict: dict)-> print:
                 table.add_row(day_of_week, str(key), str(value))
 
     i = 1
-    for key, value in sorted_dict.items():
+    for key, value in birthday_dict.items():
 
-        day_of_week = calendar.weekday(value.year, value.month, value.day)   
+        day_of_week = calendar.weekday(current_year, value.month, value.day)   
 
         if day_of_week == 4:
             if i == 1:
@@ -149,9 +150,9 @@ def get_birthdays_per_week (colleagues_dict: dict) -> None:
     next_monday = find_next_monday()
     print (next_monday)
     range = one_week_range( next_monday)
-    print (range)
+    #print (range)
     birthday_dict = birthday_dict_in_range(range)
-    print (birthday_dict)
+    #print (birthday_dict)
     print_table (birthday_dict)
 
     # for name, birthday in colleagues_dict.items():
@@ -206,7 +207,7 @@ if __name__ == '__main__':
             birthday = prof['birthdate']
             colleagues_dict[prof['name']] = birthday
             #print(prof['name'], prof['birthdate'])
-        print (birthday)  
+        #print (birthday)  
         return colleagues_dict
     
     colleagues_dict = create_test_colleagues_dict()
