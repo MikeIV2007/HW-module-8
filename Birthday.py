@@ -14,7 +14,8 @@ Friday: Kim, Jan
 Функція виводить користувачів з днями народження на тиждень вперед від поточного дня.
 Тиждень починається з понеділка."""
 
-from datetime import datetime
+import datetime
+import calendar
 from rich import print
 from rich.table import Table
 import calendar
@@ -24,14 +25,18 @@ import calendar
 # print(seventh_day_2020.weekday())   # 1
 
 def find_next_monday()->datetime:
-    some_day = datetime.now()
+    #some_day = datetime.now()
+    some_day = datetime.date(year=2023, month=12, day=25)
     week_day = calendar.weekday(some_day.year, some_day.month, some_day.day)
     if week_day == 0:
-        next_monday = datetime(some_day.year, some_day.month, some_day.day +7)
+        #next_monday = datetime(some_day.year, some_day.month, some_day.day +7)
+        next_monday = some_day + datetime.timedelta(days=7)
+
         return next_monday
     else:
         for i in range (7):
-            some_day = datetime(some_day.year, some_day.month, some_day.day +1)
+            #some_day = datetime(some_day.year, some_day.month, some_day.day +1)
+            some_day = some_day + datetime.timedelta(days=1)
             week_day = calendar.weekday(some_day.year, some_day.month, some_day.day)
             if week_day == 0:
                 next_monday = some_day
@@ -39,21 +44,47 @@ def find_next_monday()->datetime:
             else:
                 continue
 def one_week_range(next_monday: datetime) -> datetime:
-    start_of_range = datetime(next_monday.year, next_monday.month, next_monday.day-2)
-    end_of_range = datetime(next_monday.year, next_monday.month, next_monday.day+4)
+    #start_of_range = datetime(next_monday.year, next_monday.month, next_monday.day-2)
+    start_of_range = next_monday - datetime.timedelta(days=2) 
+    #end_of_range = datetime(next_monday.year, next_monday.month, next_monday.day+4)
+    end_of_range = next_monday + datetime.timedelta(days=4)
     return start_of_range, end_of_range
 
-def birthday_dict_in_range(range: datetime) -> dict:
+def birthday_dict_in_range(range: datetime, colleagues_dict: dict) -> dict:
     birthday_dict = {}
+    #print (colleagues_dict)
+
     for name, birthday in colleagues_dict.items():
- 
-      
-        if range[0].month <=  birthday.month <= range[1].month:
-            #print (birthday.month)
-            if range[0].day <=  birthday.day <= range[1].day:
-                weekday = calendar.weekday(birthday.year, birthday.month, birthday.day)
-                #print (weekday ,name, birthday)
-                birthday_dict[name] = birthday
+        #print(name, birthday)
+        #print (range[0], range[1])
+        if range[0].month == 12 and range[1].month == 1:
+            if birthday.month == 12:
+                birthday_year_12 = range[0].year
+                birthday_12 = datetime.date(birthday_year_12, birthday.month, birthday.day)
+                #print (birthday_12)
+                if range[0] <=  birthday_12 <= range[1]:
+                    print (range[0], range[1])
+                    print(name, birthday_12)
+                    print (True)
+                    birthday_dict[name] = birthday
+            if birthday.month == 1:
+                birthday_year_1 = range[1].year
+                birthday_1 = datetime.date(birthday_year_1, birthday.month, birthday.day)
+                #print (birthday_12)
+                if range[0] <=  birthday_1 <= range[1]:
+                    print (range[0], range[1])
+                    print(name, birthday_12)
+                    print (True)
+                    birthday_dict[name] = birthday
+            #return birthday_dict
+        else:
+
+            if range[0].month <=  birthday.month <= range[1].month:
+                print (birthday.month)
+                if range[0].day <=  birthday.day <= range[1].day:
+                    weekday = calendar.weekday(birthday.year, birthday.month, birthday.day)
+                    #print (weekday ,name, birthday)
+                    birthday_dict[name] = birthday
     return birthday_dict
 
 def print_table(birthday_dict: dict)-> print:
@@ -139,8 +170,6 @@ def print_table(birthday_dict: dict)-> print:
     return print(table)
 
 
-
-
 def get_birthdays_per_week (colleagues_dict: dict) -> None:
     calendar.setfirstweekday(calendar.MONDAY) #monday 0 - sundey 6
     #firthtweekday = calendar.firstweekday()
@@ -150,9 +179,9 @@ def get_birthdays_per_week (colleagues_dict: dict) -> None:
     next_monday = find_next_monday()
     print (next_monday)
     range = one_week_range( next_monday)
-    #print (range)
-    birthday_dict = birthday_dict_in_range(range)
-    #print (birthday_dict)
+    print (range)
+    birthday_dict = birthday_dict_in_range(range, colleagues_dict)
+    print (birthday_dict)
     print_table (birthday_dict)
 
     # for name, birthday in colleagues_dict.items():
