@@ -47,19 +47,13 @@ def birthday_dict_in_range(range: datetime, colleagues_dict: dict) -> dict:
                 birthday_year_12 = range[0].year
                 birthday_12 = datetime.date(birthday_year_12, birthday.month, birthday.day)
                 if range[0] <=  birthday_12 <= range[1]:
-                    print (range[0], range[1])
-                    print(name, birthday_12)
-                    print (True)
                     birthday_dict[name] = birthday
 
             if birthday.month == 1:
                 birthday_year_1 = range[1].year
                 birthday_1 = datetime.date(birthday_year_1, birthday.month, birthday.day)
-                print (birthday_1)
+
                 if range[0] <=  birthday_1 <= range[1]:
-                    print (range[0], range[1])
-                    print(name, birthday_1)
-                    print (True)
                     birthday_dict[name] = birthday
             
         else:
